@@ -44,10 +44,10 @@
 ;; created by `terminator-basic-setup' are bound to the following
 ;; keybindings:
 ;;
-;; * C-c t <f1>: Opens template 0
-;; * C-c t <f2>: Opens template 1
-;; * C-c t <f3>: Opens template 2
-;; * C-c t <f4>: Opens template 3
+;; * C-c t 1: Opens template 0
+;; * C-c t 2: Opens template 1
+;; * C-c t 3: Opens template 2
+;; * C-c t 4: Opens template 3
 ;;
 ;; You also could open a template by just using C-c t t and you will
 ;; be asked for the template number to open in the minibuffer
@@ -107,10 +107,10 @@
 (defvar terminator-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c t t") 'terminator-open-template)
-    (define-key map (kbd "C-c t <f1>") (lambda () (interactive) (terminator-open-template 0)))
-    (define-key map (kbd "C-c t <f2>") (lambda () (interactive) (terminator-open-template 1)))
-    (define-key map (kbd "C-c t <f3>") (lambda () (interactive) (terminator-open-template 2)))
-    (define-key map (kbd "C-c t <f4>") (lambda () (interactive) (terminator-open-template 3)))
+    (define-key map (kbd "C-c t 1") (lambda () (interactive) (terminator-open-template 0)))
+    (define-key map (kbd "C-c t 2") (lambda () (interactive) (terminator-open-template 1)))
+    (define-key map (kbd "C-c t 3") (lambda () (interactive) (terminator-open-template 2)))
+    (define-key map (kbd "C-c t 4") (lambda () (interactive) (terminator-open-template 3)))
     (define-key map (kbd "C-c t k") 'terminator-close-all)
     map))
 
@@ -185,7 +185,9 @@ HSPLIT and VSPLIT."
               (get-buffer-create (multi-term)))
             (subdivide-windmove 'right))
           (subdivide-windmove 'left width)
-          (subdivide-windmove 'down)))
+          (subdivide-windmove 'down))
+        (subdivide-windmove 'left width)
+        (subdivide-windmove 'up height))
     (message (format "Template %s does not exist" template))))
 
 
