@@ -1,4 +1,4 @@
-;;; terminator.el --- terminator-like multi-view terminal emulation
+;;; terminator.el --- multi-view terminal emulation
 ;;
 ;; Copyright (C) 2009 Fabián Ezequiel Gallina
 ;;
