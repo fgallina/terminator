@@ -245,8 +245,8 @@ Key bindings:
 
 (define-globalized-minor-mode terminator-global-mode
   terminator-mode terminator-mode-on
-  :group 'yasnippet
-  :require 'yasnippet)
+  :group 'terminator
+  :require 'terminator)
 
 
 (provide 'terminator)
