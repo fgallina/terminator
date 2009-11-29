@@ -174,8 +174,6 @@ HSPLIT and VSPLIT."
             (term-number 0)
             (cterminal))
         (subdivide-frame width height)
-        (when (functionp hook)
-          (funcall hook))
         (dotimes (i height)
           (dotimes (j width)
             (setq term-number (+ 1 term-number))
@@ -187,7 +185,9 @@ HSPLIT and VSPLIT."
           (subdivide-windmove 'left width)
           (subdivide-windmove 'down))
         (subdivide-windmove 'left width)
-        (subdivide-windmove 'up height))
+        (subdivide-windmove 'up height)
+        (when (functionp hook)
+          (funcall hook)))
     (message (format "Template %s does not exist" template))))
 
 
