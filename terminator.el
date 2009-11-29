@@ -81,7 +81,7 @@
 ;;
 ;; You will need term.el which comes with GNU/Emacs. Also you will
 ;; need multi-term (http://www.emacswiki.org/emacs/MultiTerm) and
-;; finally subdivide.el.
+;; finally subdivide.el (http://github.com/fgallina/subdivide)
 
 ;; Installation:
 ;;
