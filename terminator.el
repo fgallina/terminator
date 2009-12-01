@@ -152,13 +152,37 @@ HSPLIT and VSPLIT."
 
 (defun terminator-basic-setup ()
   "Creates 4 basic templates"
-  (terminator-add-template  2 2)
+
+  ;; |-------------|
+  ;; |*            |
+  ;; |             |
+  ;; |             |
+  ;; |-------------|
+  (terminator-add-template  1 1)
+
+  ;; |-------------|
+  ;; |      |*     |
+  ;; |------|      |
+  ;; |      |      |
+  ;; |-------------|
   (terminator-add-template  2 2 (lambda ()
                                   (terminator-windmove 'right 2)
                                   (delete-other-windows-vertically)))
+
+  ;; |-------------|
+  ;; |*     |      |
+  ;; |-------------|
+  ;; |             |
+  ;; |-------------|
   (terminator-add-template  1 2 (lambda ()
                                   (terminator-windmove 'up 1)
                                   (split-window-horizontally)))
+
+  ;; |-------------|
+  ;; |*            |
+  ;; |-------------|
+  ;; |             |
+  ;; |-------------|
   (terminator-add-template  1 2))
 
 
