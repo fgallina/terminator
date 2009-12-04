@@ -238,28 +238,7 @@ active on the current window."
     (setq cterminal (format "*terminal<%s>*" term-number))
     (if (get-buffer cterminal)
         (switch-to-buffer cterminal)
-      (get-buffer-create (multi-term)))))
-  
-
-;; Inspired in this article:
-;; http://curiousprogrammer.wordpress.com/2009/06/08/error-handling-in-emacs-lisp/
-(defmacro terminator-windmove (direction &optional times)
-  "Macro to execute windmove commands safely. Will return nil
-when is not possible to move to DIRECTION"
-  `(unwind-protect
-       (let (retval)
-         (condition-case ex
-             (setq retval
-                   (progn
-                     (dotimes (i ,times)
-                       (funcall
-                        (intern-soft
-                         (concat
-                          "windmove-" (prin1-to-string ,direction)))))))
-           ('error
-            (setq retval nil)))
-         (windowp retval))
-     nil))
+      (get-buffer-create (multi-term)))))  
 
 
 ;;;###autoload
