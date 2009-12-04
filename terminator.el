@@ -175,7 +175,7 @@ HSPLIT and VSPLIT."
   ;; |             |
   ;; |-------------|
   (terminator-add-template  1 2 (lambda ()
-                                  (terminator-windmove 'up)
+                                  (subdivide-windmove 'up)
                                   (split-window-horizontally)
                                   (subdivide-windmove 'right)
                                   (terminator-get-or-create 2)
