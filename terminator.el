@@ -166,7 +166,7 @@ HSPLIT and VSPLIT."
   ;; |      |      |
   ;; |-------------|
   (terminator-add-template  2 2 (lambda ()
-                                  (terminator-windmove 'right 2)
+                                  (subdivide-windmove 'right 2)
                                   (delete-other-windows-vertically)))
 
   ;; |-------------|
@@ -175,8 +175,12 @@ HSPLIT and VSPLIT."
   ;; |             |
   ;; |-------------|
   (terminator-add-template  1 2 (lambda ()
-                                  (terminator-windmove 'up 1)
-                                  (split-window-horizontally)))
+                                  (terminator-windmove 'up)
+                                  (split-window-horizontally)
+                                  (subdivide-windmove 'right)
+                                  (terminator-get-or-create 2)
+                                  (subdivide-windmove 'down)
+                                  (terminator-get-or-create 3)))
 
   ;; |-------------|
   ;; |*            |
@@ -201,10 +205,7 @@ HSPLIT and VSPLIT."
         (dotimes (i height)
           (dotimes (j width)
             (setq term-number (+ 1 term-number))
-            (setq cterminal (format "*terminal<%s>*" term-number))
-            (if (get-buffer cterminal)
-                (switch-to-buffer cterminal)
-              (get-buffer-create (multi-term)))
+            (terminator-get-or-create term-number)
             (subdivide-windmove 'right))
           (subdivide-windmove 'left width)
           (subdivide-windmove 'down))
@@ -228,6 +229,17 @@ HSPLIT and VSPLIT."
         (setq i (+ 1 i)))
       (message "All terminals killed"))))
 
+
+(defun terminator-get-or-create (term-number)
+  "If TERM-NUMBER does not exists then the terminal is
+created. After the terminal buffer is found or created is made
+active on the current window."
+  (let ((cterminal))
+    (setq cterminal (format "*terminal<%s>*" term-number))
+    (if (get-buffer cterminal)
+        (switch-to-buffer cterminal)
+      (get-buffer-create (multi-term)))))
+  
 
 ;; Inspired in this article:
 ;; http://curiousprogrammer.wordpress.com/2009/06/08/error-handling-in-emacs-lisp/
