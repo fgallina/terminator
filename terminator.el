@@ -246,7 +246,7 @@ active on the current window."
   "Toggle Terminator mode.
 
 Key bindings:
-\\{terminator-mode-map}"
+\\[terminator-mode-map]"
   nil
   " trmntr"
   :group 'terminator
@@ -255,13 +255,14 @@ Key bindings:
       (push (cons 'terminator-mode mweb-mode-map) minor-mode-map-alist))))
 
 
-(defun terminator-mode-on ()
-  "Turns on the globalized major mode"
-  (terminator-mode t))
+(defun terminator-mode-maybe ()
+  "Used to turn on the globalized minor mode."
+  (when (not (minibufferp (current-buffer)))
+    (terminator-mode 1)))
 
 
 (define-globalized-minor-mode terminator-global-mode
-  terminator-mode terminator-mode-on
+  terminator-mode terminator-mode-maybe
   :group 'terminator
   :require 'terminator)
 
