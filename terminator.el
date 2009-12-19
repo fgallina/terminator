@@ -107,10 +107,6 @@
 (defvar terminator-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c t t") 'terminator-open-template)
-    (define-key map (kbd "C-c t 1") (lambda () (interactive) (terminator-open-template 0)))
-    (define-key map (kbd "C-c t 2") (lambda () (interactive) (terminator-open-template 1)))
-    (define-key map (kbd "C-c t 3") (lambda () (interactive) (terminator-open-template 2)))
-    (define-key map (kbd "C-c t 4") (lambda () (interactive) (terminator-open-template 3)))
     (define-key map (kbd "C-c t k") 'terminator-close-all)
     map))
 
@@ -151,7 +147,8 @@ HSPLIT and VSPLIT."
 
 
 (defun terminator-basic-setup ()
-  "Creates 4 basic templates"
+  "Creates 4 basic templates and assigns C-c t 1, C-c t 2, C-c t
+3, C-c t 4 to open each template."
 
   ;; |-------------|
   ;; |*            |
@@ -187,7 +184,12 @@ HSPLIT and VSPLIT."
   ;; |-------------|
   ;; |             |
   ;; |-------------|
-  (terminator-add-template  1 2))
+  (terminator-add-template  1 2)
+
+  (define-key terminator-mode-map (kbd "C-c t 1") (lambda () (interactive) (terminator-open-template 0)))
+  (define-key terminator-mode-map (kbd "C-c t 2") (lambda () (interactive) (terminator-open-template 1)))
+  (define-key terminator-mode-map (kbd "C-c t 3") (lambda () (interactive) (terminator-open-template 2)))
+  (define-key terminator-mode-map (kbd "C-c t 4") (lambda () (interactive) (terminator-open-template 3))))
 
 
 ;; This will do all the magic we need. After each split
@@ -219,15 +221,11 @@ HSPLIT and VSPLIT."
 (defun terminator-close-all (&optional sure)
   "Closes all opened terminals at once."
   (interactive
-   (list
-    (y-or-n-p "Are you sure?: ")))
-  (let ((i 1))
-    (delete-other-windows)
-    (when sure
-      (while (get-buffer (format "*terminal<%s>*" i))
-        (kill-buffer (format "*terminal<%s>*" i))
-        (setq i (+ 1 i)))
-      (message "All terminals killed"))))
+   (list (y-or-n-p "Are you sure?: ")))
+  (dolist (buffer (buffer-list))
+    (when (string-match "#<buffer \\*terminal<[0-9]+>\\*>" (prin1-to-string buffer))
+      (kill-buffer buffer)))
+  (message "All terminals killed"))
 
 
 (defun terminator-get-or-create (term-number)
@@ -238,7 +236,7 @@ active on the current window."
     (setq cterminal (format "*terminal<%s>*" term-number))
     (if (get-buffer cterminal)
         (switch-to-buffer cterminal)
-      (get-buffer-create (multi-term)))))  
+      (get-buffer-create (multi-term)))))
 
 
 ;;;###autoload
